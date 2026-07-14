@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kakarbhitta | Gateway of Eastern Nepal</title>
+<meta name="description" content="Welcome to Kakarbhitta (Kakarvitta), Jhapa, Nepal — the eastern gateway to Nepal on the Nepal-India border.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0f1611;
+    --bg-alt:#141d17;
+    --panel:#182219;
+    --accent:#e8a33d;
+    --accent2:#6fae6b;
+    --text:#f3efe6;
+    --muted:#a8b3a5;
+    --line:rgba(243,239,230,0.10);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  h1,h2,h3{font-family:'Fraunces',serif; font-weight:900; letter-spacing:-0.5px;}
+  a{color:inherit; text-decoration:none;}
+  img{max-width:100%; display:block;}
+
+  nav{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    display:flex; justify-content:space-between; align-items:center;
+    padding:18px 5%;
+    background:linear-gradient(to bottom, rgba(15,22,17,0.9), transparent);
+    backdrop-filter:blur(4px);
+  }
+  .logo{font-family:'Fraunces',serif; font-weight:900; font-size:1.3rem; letter-spacing:1px;}
+  .logo span{color:var(--accent);}
+  .nav-links{display:flex; gap:22px; font-size:0.88rem; flex-wrap:wrap;}
+  .nav-links a{opacity:0.85; transition:opacity .2s, color .2s; white-space:nowrap;}
+  .nav-links a:hover{opacity:1; color:var(--accent);}
+  .nav-toggle{display:none; font-size:1.6rem; cursor:pointer; background:none; border:none; color:var(--text);}
+
+  .hero{
+    position:relative;
+    height:100vh; min-height:640px;
+    display:flex; align-items:center;
+    overflow:hidden;
+    background:radial-gradient(ellipse at 70% 30%, #1c2a1e 0%, var(--bg) 70%);
+  }
+  #hero-canvas{position:absolute; inset:0; width:100%; height:100%; z-index:1;}
+  .hero-content{
+    position:relative; z-index:2;
+    padding:0 5%; max-width:720px;
+  }
+  .eyebrow{
+    color:var(--accent); font-size:0.85rem; letter-spacing:3px; text-transform:uppercase;
+    margin-bottom:18px; font-weight:600;
+  }
+  .hero h1{
+    font-size:clamp(2.6rem, 7vw, 5rem);
+    line-height:1.03;
+    margin-bottom:20px;
+  }
+  .hero h1 em{color:var(--accent2); font-style:normal;}
+  .hero p{
+    color:var(--muted); font-size:1.1rem; max-width:520px; margin-bottom:32px;
+  }
+  .btn-row{display:flex; gap:16px; flex-wrap:wrap;}
+  .btn{
+    display:inline-block; padding:14px 28px; border-radius:999px;
+    font-weight:600; font-size:0.95rem; transition:transform .2s, background .2s;
+  }
+  .btn-primary{background:var(--accent); color:#1a1305;}
+  .btn-primary:hover{transform:translateY(-2px); background:#f5b555;}
+  .btn-outline{border:1px solid var(--line); color:var(--text);}
+  .btn-outline:hover{border-color:var(--accent); color:var(--accent);}
+  .scroll-cue{
+    position:absolute; bottom:28px; left:5%; z-index:2; font-size:0.8rem; color:var(--muted);
+    display:flex; align-items:center; gap:8px;
+  }
+  .scroll-cue::before{content:""; width:26px; height:1px; background:var(--muted);}
+
+  section{padding:110px 5%;}
+  .section-head{max-width:640px; margin-bottom:56px;}
+  .section-head .eyebrow{margin-bottom:12px;}
+  .section-head h2{font-size:clamp(2rem, 4vw, 2.8rem); margin-bottom:14px;}
+  .section-head p{color:var(--muted); font-size:1.05rem;}
+
+  .about-grid{
+    display:grid; grid-template-columns:1.1fr 0.9fr; gap:60px; align-items:center;
+  }
+  .stat-grid{display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:32px;}
+  .stat{
+    background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:22px;
+  }
+  .stat b{display:block; font-family:'Fraunces',serif; font-size:1.7rem; color:var(--accent);}
+  .stat span{font-size:0.85rem; color:var(--muted);}
+  .about-img{border-radius:18px; overflow:hidden; border:1px solid var(--line); position:relative;}
+  .about-img img{height:520px; object-fit:cover; width:100%;}
+  .img-credit{
+    position:absolute; bottom:0; right:0; font-size:0.68rem; color:#fff;
+    background:rgba(0,0,0,0.55); padding:4px 9px; border-radius:8px 0 0 0;
+  }
+
+  .card-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:26px;}
+  .card{
+    background:var(--panel); border:1px solid var(--line); border-radius:16px; overflow:hidden;
+    transition:transform .25s, border-color .25s;
+  }
+  .card:hover{transform:translateY(-6px); border-color:var(--accent);}
+  .card-img{height:200px; position:relative; overflow:hidden;}
+  .card-img img{width:100%; height:100%; object-fit:cover; transition:transform .5s;}
+  .card:hover .card-img img{transform:scale(1.08);}
+  .card-body{padding:22px;}
+  .card-body h3{font-size:1.15rem; margin-bottom:8px;}
+  .card-body p{color:var(--muted); font-size:0.92rem;}
+  .tag{
+    display:inline-block; font-size:0.7rem; letter-spacing:1px; text-transform:uppercase;
+    color:var(--accent2); margin-bottom:10px; font-weight:600;
+  }
+  .placeholder-note{
+    position:absolute; top:8px; left:8px; font-size:0.62rem; color:#fff;
+    background:rgba(0,0,0,0.55); padding:3px 8px; border-radius:6px; letter-spacing:0.5px;
+  }
+
+  .logo-card{
+    background:var(--panel); border:1px solid var(--line); border-radius:16px; overflow:hidden;
+    transition:transform .25s, border-color .25s, box-shadow .25s;
+    display:flex; flex-direction:column; height:100%;
+  }
+  .logo-card:hover{
+    transform:translateY(-6px); border-color:var(--accent); 
+    box-shadow:0 12px 32px rgba(232,163,61,0.15);
+  }
+  .logo-card-img{
+    height:240px; display:flex; align-items:center; justify-content:center; 
+    background:linear-gradient(135deg, rgba(111,174,107,0.08), rgba(232,163,61,0.08));
+    overflow:hidden; position:relative;
+  }
+  .logo-card-img img{
+    max-height:220px; max-width:200px; object-fit:contain; width:auto;
+    filter:drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+    transition:transform .3s;
+  }
+  .logo-card:hover .logo-card-img img{transform:scale(1.05);}
+  .logo-card-body{padding:24px; flex:1; display:flex; flex-direction:column;}
+  .logo-card-body h3{font-size:1.15rem; margin-bottom:8px; color:var(--accent);}
+  .logo-card-body .tag{margin-bottom:12px;}
+  .logo-card-body p{color:var(--muted); font-size:0.92rem; flex:1;}
+
+  .gallery{
+    columns:4 220px; column-gap:14px;
+  }
+  .gallery img{
+    width:100%; margin-bottom:14px; border-radius:10px; border:1px solid var(--line);
+    break-inside:avoid;
+  }
+
+  .travel-list{list-style:none; margin-top:10px;}
+  .travel-list li{
+    display:flex; justify-content:space-between; padding:16px 0; border-bottom:1px solid var(--line);
+    font-size:0.98rem;
+  }
+  .travel-list li span:last-child{color:var(--accent); font-weight:600;}
+
+  .subhead{
+    font-family:'Fraunces',serif; font-size:1.4rem; margin:50px 0 22px;
+    display:flex; align-items:center; gap:12px;
+  }
+  .subhead:first-of-type{margin-top:0;}
+  .subhead::after{content:""; flex:1; height:1px; background:var(--line);}
+
+  footer{
+    padding:60px 5% 30px; border-top:1px solid var(--line); background:var(--bg-alt);
+  }
+  .footer-grid{
+    display:grid; grid-template-columns:1.3fr 1fr 1fr; gap:40px; margin-bottom:40px;
+  }
+  footer h4{font-size:0.95rem; margin-bottom:16px; color:var(--accent);}
+  footer ul{list-style:none;}
+  footer li{margin-bottom:10px; color:var(--muted); font-size:0.92rem;}
+  footer p{color:var(--muted); font-size:0.92rem;}
+  .foot-bottom{
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+    font-size:0.8rem; color:var(--muted); border-top:1px solid var(--line); padding-top:24px;
+  }
+
+  @media (max-width:860px){
+    .nav-links{
+      position:fixed; top:0; right:-100%; height:100vh; width:70%;
+      background:var(--bg-alt); flex-direction:column; padding:100px 30px;
+      transition:right .3s; z-index:99;
+    }
+    .nav-links.open{right:0;}
+    .nav-toggle{display:block;}
+    .about-grid{grid-template-columns:1fr;}
+    .footer-grid{grid-template-columns:1fr;}
+    .about-img img{height:320px;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Kakar<span>bhitta</span></div>
+  <div class="nav-links" id="navLinks">
+    <a href="#about">About</a>
+    <a href="#attractions">Attractions</a>
+    <a href="#schools">Schools</a>
+    <a href="#stay-eat">Stay &amp; Eat</a>
+    <a href="#business">Business</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#travel">Travel Info</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <button class="nav-toggle" id="navToggle">&#9776;</button>
+</nav>
+
+<header class="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-content">
+    <div class="eyebrow">Jhapa District &middot; Koshi Province &middot; Nepal</div>
+    <h1>Welcome to <em>Kakarbhitta</em></h1>
+    <p>The eastern gateway of Nepal — where the Mahendra Highway ends, the Mechi River marks the border with India, and the road to the Himalayan tea hills of Ilam begins.</p>
+    <div class="btn-row">
+      <a href="#about" class="btn btn-primary">Explore the Town</a>
+      <a href="#travel" class="btn btn-outline">Plan Your Visit</a>
+    </div>
+  </div>
+  <div class="scroll-cue">SCROLL</div>
+</header>
+
+<section id="about">
+  <div class="about-grid">
+    <div>
+      <div class="eyebrow">About the Town</div>
+      <h2>Nepal's Doorway on the Eastern Frontier</h2>
+      <p style="color:var(--muted); font-size:1.05rem;">
+        Kakarbhitta (also written Kakarvitta) sits in Mechinagar Municipality, Ward No. 10,
+        at the eastern end of the 922&nbsp;km Mahendra (East&#8211;West) Highway. Facing Panitanki
+        in West Bengal, India, across the Mechi River, it is Nepal's busiest eastern land border
+        and the main entry point for travelers, traders, and trekkers heading into Nepal's
+        eastern hills. The name itself comes from local words for "land of crabs" — a nod to the
+        wetlands the town was built on.
+      </p>
+      <div class="stat-grid">
+        <div class="stat"><b>142m</b><span>Elevation above sea level</span></div>
+        <div class="stat"><b>475km</b><span>South-east of Kathmandu</span></div>
+        <div class="stat"><b>UTC+5:45</b><span>Nepal Standard Time</span></div>
+        <div class="stat"><b>26.65°N</b><span>88.16°E coordinates</span></div>
+      </div>
+    </div>
+    <div class="about-img">
+      <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Immmigration%20office%2C%20Kakarbhitta%2C%20Nepal.jpg" alt="Immigration office, Kakarbhitta, Nepal" loading="lazy">
+      <div class="img-credit">Wikimedia Commons</div>
+    </div>
+  </div>
+</section>
+
+<section id="attractions" style="background:var(--bg-alt);">
+  <div class="section-head">
+    <div class="eyebrow">See &amp; Do</div>
+    <h2>Landmarks Around Town</h2>
+    <p>Kakarbhitta isn't about sightseeing sprees — it's a working border town. These are the spots that give you its real character.</p>
+  </div>
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-img"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Mechi%20Bridge%20facing%20Nepal.jpg" alt="Mechi Bridge facing Nepal" loading="lazy"></div>
+      <div class="card-body">
+        <span class="tag">Landmark</span>
+        <h3>Mechi Bridge</h3>
+        <p>The international bridge over the Mechi River — the exact line where Nepal ends and India begins. Sunrise and late-afternoon river views are worth the walk.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-img"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Kakarbhitta%2C%20Kakarvitta%20street%20views%20-%20during%20LGFC%20-%20Bhutan%202019%20(1).jpg" alt="Kakarbhitta street view" loading="lazy"></div>
+      <div class="card-body">
+        <span class="tag">Street Life</span>
+        <h3>Main Bazaar</h3>
+        <p>The market at the junction is where locals trade, barter, and gossip — spices, ready-made clothes, cheap electronics, and cross-border goods of every kind.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-img"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Kakarbhitta%2C%20Kakarvitta%20street%20views%20-%20during%20LGFC%20-%20Bhutan%202019%20(3).jpg" alt="Kakarbhitta border checkpoint area" loading="lazy"></div>
+      <div class="card-body">
+        <span class="tag">Border</span>
+        <h3>Integrated Check Post</h3>
+        <p>Watch trucks, traders and passport queues at Nepal's busiest eastern customs point — a front-row seat to everyday Nepal&ndash;India trade.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-img"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Kakarbhitta%2C%20Kakarvitta%20street%20views%20-%20during%20LGFC%20-%20Bhutan%202019%20(4).jpg" alt="Kakarbhitta highway view" loading="lazy"></div>
+      <div class="card-body">
+        <span class="tag">Highway</span>
+        <h3>Eastern Terminus, Mahendra Highway</h3>
+        <p>The marker noting the end of Nepal's coast-to-coast East&ndash;West Highway — a small, low-key photo stop with a big story behind it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="schools">
+  <div class="section-head">
+    <div class="eyebrow">Education</div>
+    <h2>Schools of Kakarbhitta</h2>
+    <p>A growing town needs strong schools — these are the well-known institutions serving Kakarbhitta's students with quality education.</p>
+  </div>
+  <div class="card-grid">
+    <div class="logo-card">
+      <div class="logo-card-img">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpTsgoa6oK9Ptx7iYNoBnUA4kF50wUTlqwkfFOxhMwBELvjlCYmJ9Uly84&s=10" alt="Kakarvitta Secondary School logo" loading="lazy">
+      </div>
+      <div class="logo-card-body">
+        <span class="tag">School</span>
+        <h3>Kakarvitta Secondary School</h3>
+        <p>One of the established secondary schools in Kakarbhitta, offering quality education and serving generations of students. Located at Mechinagar-6, the school is known for its academic excellence and student development programs.</p>
+      </div>
+    </div>
+    <div class="logo-card">
+      <div class="logo-card-img">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWy5bG74gd1qRnyrMXdQAL6g0WC1XoNwe4w6dVQTb5RYvPWJkXrp6iQJk&s=10" alt="Pasupati English School - School Park" loading="lazy">
+      </div>
+      <div class="logo-card-body">
+        <span class="tag">School</span>
+        <h3>Pasupati English Boarding School</h3>
+        <p>A well-regarded boarding school offering English-medium education with a focus on holistic development. The school provides excellent facilities including green spaces and modern learning environments for students.</p>
+      </div>
+    </div>
+    <div class="logo-card">
+      <div class="logo-card-img">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgYCdYAx24C4ENm2tfW90tBIInkeOfQEI2-2rzxj-QEUkCXMDM5bY3rrw&s=10" alt="Tarapunja English School logo" loading="lazy">
+      </div>
+      <div class="logo-card-body">
+        <span class="tag">School</span>
+        <h3>Tarapunja English School</h3>
+        <p>A local English-medium school catering to families in and around Tarapunja and Kakarbhitta. Known for its academic programs and commitment to student excellence, established with a strong foundation of values and learning.</p>
+      </div>
+    </div>
+    <div class="logo-card">
+      <div class="logo-card-img">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMx2wK5XVUOy9QBzkZ1-KdFpm2_2FbBqFJRD86dJ0phZtPB-wvB0RwGbY&s=10" alt="Suryodya English School logo" loading="lazy">
+      </div>
+      <div class="logo-card-body">
+        <span class="tag">School</span>
+        <h3>Suryodya English School</h3>
+        <p>A well-known English-medium school serving the growing student population of Kakarbhitta. The school is committed to providing quality education focused on the pursuit of knowledge and holistic student development.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="stay-eat" style="background:var(--bg-alt);">
+  <div class="section-head">
+    <div class="eyebrow">Stay, Eat &amp; Treat</div>
+    <h2>Hotels, Restaurants &amp; Bakeries</h2>
+    <p>From border-crossing travelers to weekend visitors, here's where Kakarbhitta eats, sleeps, and grabs dessert.</p>
+  </div>
+
+  <div class="subhead">Top Hotels</div>
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-img">
+        <img src="https://cdn.esewahotels.com/hotels/1664268175-1328820409.jpg" alt="Taj Hotel, Kakarbhitta" loading="lazy">
+      </div>
+      <div class="card-body">
+        <span class="tag">Hotel</span>
+        <h3>Taj Hotel</h3>
+        <p>One of Kakarbhitta's popular hotel picks for travelers passing through the border town.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-img">
+        <span class="placeholder-note">representative image</span>
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Hotel%20lobby%20interior.jpg" alt="Hotel, illustrative image" loading="lazy">
+      </div>
+      <div class="card-body">
+        <span class="tag">Hotel</span>
+        <h3>Dhaka Hotel</h3>
+        <p>A well-known lodging option for visitors and cross-border travelers in Kakarbhitta.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-img">
+        <span class="placeholder-note">representative image</span>
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Hotel%20room.jpg" alt="Hotel, illustrative image" loading="lazy">
+      </div>
+      <div class="card-body">
+        <span class="tag">Hotel</span>
+        <h3>Paruhang Hotel</h3>
+        <p>A favored stay for guests looking for comfortable accommodation near the border.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-img">
+        <span class="placeholder-note">representative image</span>
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Hotel%20exterior%20night.jpg" alt="Hotel, illustrative image" loading="lazy">
+      </div>
+      <div class="card-body">
+        <span class="tag">Hotel</span>
+        <h3>Hotel Grande</h3>
+        <p>One of the top-rated hotels in Kakarbhitta for travelers and business visitors alike.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="subhead">Restaurants &amp; Cafés</div>
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-img">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRK-irzA1FvF3BkMwCXGlauOnscSVEi2-_HWc6947xOxxsmLbuHDaDdPGA&s=10" alt="Tea Hub, Kakarbhitta" loading="lazy">
+      </div>
+      <div class="card-body">
+        <span class="tag">Restaurant</span>
+        <h3>Tea Hub</h3>
+        <p>A popular local spot for tea and casual bites in Kakarbhitta.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-img">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSr9fvz07E2k-6pssflqHV_0_FGGSY0_lW-q7qImMZx3HhApccWkUbhCWbB&s=10" alt="Fusion Restaurant, Kakarvitta" loading="lazy">
+      </div>
+      <div class="card-body">
+        <span class="tag">Restaurant</span>
+        <h3>Fusion</h3>
+        <p>Known for its mixed-cuisine menu, a favorite dining stop for locals and visitors.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-img">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTy-b69j2KyIktGSgwYGBwI3_IysthVTErdSffdoiwzcg&s" alt="Ganpat Cafe, Kakarvitta" loading="lazy">
+      </div>
+      <div class="card-body">
+        <span class="tag">Cafe</span>
+        <h3>Ganpat Cafe</h3>
+        <p>A go-to café in town for coffee, snacks, and a relaxed atmosphere.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="subhead">Bakery</div>
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-img">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_RkTGkDSCg8c0Bsn0AWspOyjqhHdcb6QVFTO2RZpc3Q&s=10" alt="Neha Sneha Bakery, Kakarvitta" loading="lazy">
+      </div>
+      <div class="card-body">
+        <span class="tag">Bakery</span>
+        <h3>Neha Sneha Bakery</h3>
+        <p>The town's top bakery for fresh bread, pastries, and baked treats.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="business">
+  <div class="section-head">
+    <div class="eyebrow">Local Business</div>
+    <h2>Made in Kakarbhitta</h2>
+    <p>Beyond hospitality, Kakarbhitta is home to established local businesses serving the wider Jhapa region.</p>
+  </div>
+  <div class="card-grid">
+    <div class="card">
+      <div class="card-img">
+        <span class="placeholder-note">representative image</span>
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Furniture%20showroom.jpg" alt="Furniture business, illustrative image" loading="lazy">
+      </div>
+      <div class="card-body">
+        <span class="tag">Furniture</span>
+        <h3>Sayapatri Furniture</h3>
+        <p>A leading furniture business in Kakarbhitta, supplying home and office furnishings to the local area.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="gallery">
+  <div class="section-head">
+    <div class="eyebrow">Gallery</div>
+    <h2>Kakarbhitta in Pictures</h2>
+    <p>Free-to-use photographs sourced from Wikimedia Commons. Add your own local photos here once you publish!</p>
+  </div>
+  <div class="gallery">
+    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Kakarbhitta%2C%20Kakarvitta%20street%20views%20-%20during%20LGFC%20-%20Bhutan%202019%20(1).jpg" alt="Kakarbhitta street 1" loading="lazy">
+    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Kakarbhitta%2C%20Kakarvitta%20street%20views%20-%20during%20LGFC%20-%20Bhutan%202019%20(2).jpg" alt="Kakarbhitta street 2" loading="lazy">
+    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Mechi%20bridge%20facing%20Nepal%20-%20panoramio.jpg" alt="Mechi bridge panorama" loading="lazy">
+    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Kakarbhitta%2C%20Kakarvitta%20street%20views%20-%20during%20LGFC%20-%20Bhutan%202019%20(3).jpg" alt="Kakarbhitta street 3" loading="lazy">
+    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Eastern%20boarder%20of%20Nepal%20-%20panoramio.jpg" alt="Eastern border of Nepal" loading="lazy">
+    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Kakarbhitta%2C%20Kakarvitta%20street%20views%20-%20during%20LGFC%20-%20Bhutan%202019%20(4).jpg" alt="Kakarbhitta street 4" loading="lazy">
+  </div>
+</section>
+
+<section id="travel" style="background:var(--bg-alt);">
+  <div class="about-grid">
+    <div>
+      <div class="eyebrow">Getting Here</div>
+      <h2>Travel &amp; Distances</h2>
+      <ul class="travel-list">
+        <li><span>Bhadrapur Airport (Nepal)</span><span>21 km</span></li>
+        <li><span>Bagdogra Airport (India)</span><span>21.5 km</span></li>
+        <li><span>Biratnagar Airport (Nepal)</span><span>105 km</span></li>
+        <li><span>Kathmandu (by road)</span><span>~610 km / 13 hrs</span></li>
+        <li><span>Siliguri, India (by road)</span><span>~1 hr</span></li>
+        <li><span>Darjeeling, India (by road)</span><span>~3 hrs</span></li>
+        <li><span>Ilam tea gardens (by road)</span><span>~2 hrs</span></li>
+      </ul>
+    </div>
+    <div>
+      <div class="eyebrow">Good To Know</div>
+      <h2>Before You Go</h2>
+      <p style="color:var(--muted); margin-bottom:20px;">
+        A Tourism Information Center at the border issues trekking permits for Nepal's eastern
+        region. Nepali and Indian nationals cross freely; other nationalities use the customs
+        checkpoint. Buses to Birtamod, Damak, Biratnagar and beyond leave regularly from the
+        Kakarbhitta bus park. Best season to visit: October&ndash;April.
+      </p>
+      <div class="stat-grid">
+        <div class="stat"><b>Oct&ndash;Apr</b><span>Best time to visit</span></div>
+        <div class="stat"><b>Terai</b><span>Climate &amp; landscape zone</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="footer-grid">
+    <div>
+      <div class="logo" style="margin-bottom:14px;">Kakar<span>bhitta</span></div>
+      <p>A community website for Kakarbhitta, Mechinagar Municipality, Jhapa District,
+      Koshi Province, Nepal — the eastern gateway of the country.</p>
+    </div>
+    <div>
+      <h4>Explore</h4>
+      <ul>
+        <li><a href="#about">About the Town</a></li>
+        <li><a href="#attractions">Attractions</a></li>
+        <li><a href="#schools">Schools</a></li>
+        <li><a href="#stay-eat">Stay &amp; Eat</a></li>
+        <li><a href="#business">Business</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#travel">Travel Info</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Location</h4>
+      <ul>
+        <li>Ward No. 10, Mechinagar</li>
+        <li>Jhapa District, Koshi Province</li>
+        <li>Nepal &ndash; India Border</li>
+        <li>26.65&deg;N, 88.16&deg;E</li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>&copy; <span id="year"></span> Kakarbhitta Community Site. Built with love for Jhapa.</span>
+    <span>Photos: Wikimedia Commons (CC-licensed) &middot; Made for local publishing</span>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+  document.getElementById('navToggle').addEventListener('click', () => {
+    document.getElementById('navLinks').classList.toggle('open');
+  });
+  document.querySelectorAll('.nav-links a').forEach(a=>{
+    a.addEventListener('click', ()=> document.getElementById('navLinks').classList.remove('open'));
+  });
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  (function(){
+    const canvas = document.getElementById('hero-canvas');
+    const heroEl = document.querySelector('.hero');
+    let width = heroEl.clientWidth, height = heroEl.clientHeight;
+
+    const renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true});
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+    renderer.setSize(width, height);
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, width/height, 0.1, 100);
+    camera.position.set(0, 1.2, 9);
+
+    const gate = new THREE.Group();
+
+    const postMat = new THREE.MeshStandardMaterial({color:0xe8a33d, roughness:0.5, metalness:0.2});
+    const postGeo = new THREE.CylinderGeometry(0.18, 0.18, 3.4, 8);
+    const postL = new THREE.Mesh(postGeo, postMat); postL.position.set(-2.1, 0, 0);
+    const postR = new THREE.Mesh(postGeo, postMat); postR.position.set(2.1, 0, 0);
+    gate.add(postL, postR);
+
+    const beamGeo = new THREE.BoxGeometry(4.6, 0.3, 0.3);
+    const beam = new THREE.Mesh(beamGeo, postMat); beam.position.set(0, 1.85, 0);
+    gate.add(beam);
+
+    const roofGeo = new THREE.ConeGeometry(1.0, 0.9, 4);
+    const roofMat = new THREE.MeshStandardMaterial({color:0x6fae6b, roughness:0.6});
+    const roofL = new THREE.Mesh(roofGeo, roofMat); roofL.position.set(-2.1, 2.5, 0); roofL.rotation.y = Math.PI/4;
+    const roofR = new THREE.Mesh(roofGeo, roofMat); roofR.position.set(2.1, 2.5, 0); roofR.rotation.y = Math.PI/4;
+    gate.add(roofL, roofR);
+
+    gate.position.set(2.6, -0.4, -1);
+    gate.rotation.y = 0.4;
+    scene.add(gate);
+
+    const groundGeo = new THREE.PlaneGeometry(30, 30);
+    const groundMat = new THREE.MeshStandardMaterial({color:0x162016, roughness:1});
+    const ground = new THREE.Mesh(groundGeo, groundMat);
+    ground.rotation.x = -Math.PI/2;
+    ground.position.y = -1.7;
+    scene.add(ground);
+
+    const starCount = 220;
+    const starGeo = new THREE.BufferGeometry();
+    const positions = new Float32Array(starCount * 3);
+    for(let i=0;i<starCount;i++){
+      positions[i*3]   = (Math.random()-0.5) * 24;
+      positions[i*3+1] = Math.random() * 8 - 1;
+      positions[i*3+2] = (Math.random()-0.5) * 20 - 4;
+    }
+    starGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    const starMat = new THREE.PointsMaterial({color:0xf3d38a, size:0.045, transparent:true, opacity:0.8});
+    const stars = new THREE.Points(starGeo, starMat);
+    scene.add(stars);
+
+    scene.add(new THREE.AmbientLight(0xffffff, 0.55));
+    const dir = new THREE.DirectionalLight(0xffd9a0, 1);
+    dir.position.set(5, 6, 4);
+    scene.add(dir);
+
+    let mouseX = 0;
+    window.addEventListener('mousemove', (e)=>{
+      mouseX = (e.clientX / window.innerWidth - 0.5);
+    }, {passive:true});
+
+    function resize(){
+      width = heroEl.clientWidth; height = heroEl.clientHeight;
+      renderer.setSize(width, height);
+      camera.aspect = width/height;
+      camera.updateProjectionMatrix();
+    }
+    window.addEventListener('resize', resize);
+
+    let raf;
+    function animate(){
+      raf = requestAnimationFrame(animate);
+      gate.rotation.y += 0.0025 + mouseX * 0.001;
+      stars.rotation.y += 0.0006;
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    document.addEventListener('visibilitychange', ()=>{
+      if(document.hidden){ cancelAnimationFrame(raf); }
+      else{ animate(); }
+    });
+  })();
+</script>
+</body>
+</html>
